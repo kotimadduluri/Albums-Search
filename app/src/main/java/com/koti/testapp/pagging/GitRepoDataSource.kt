@@ -2,6 +2,8 @@ package com.koti.testapp.pagging
 
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.PageKeyedDataSource
+import com.koti.testapp.db.roomDB.RepoEntity
+import com.koti.testapp.helper.DataConvertor
 import com.koti.testapp.network.NetworkResponse
 import com.koti.testapp.network.response.Item
 import com.koti.testapp.repo.SearchRepository
@@ -18,13 +20,13 @@ class GitRepoDataSource(
     private val networkResponse: MutableLiveData<NetworkResponse<String>>,
     private val searchKey: String,
     private val isFirstLoad: Boolean
-) : PageKeyedDataSource<Int, Item>() {
+) : PageKeyedDataSource<Int, RepoEntity>() {
     private val PAGE = 1
 
     //initial page loading
     override fun loadInitial(
         params: PageKeyedDataSource.LoadInitialParams<Int>,
-        callback: PageKeyedDataSource.LoadInitialCallback<Int, Item>
+        callback: PageKeyedDataSource.LoadInitialCallback<Int, RepoEntity>
     ) {
         if (searchKey.isNotEmpty()) {
             CoroutineScope(Dispatchers.IO).launch {
@@ -32,12 +34,12 @@ class GitRepoDataSource(
                     networkResponse.postValue(NetworkResponse.Loading())
                     val response =
                         searchRepository.search(searchKey, PAGE, params.requestedLoadSize)
+                    val processedData=DataConvertor.rawToRepoEntityList(response.items)
                     callback.onResult(
-                        response.items, null,
+                        processedData, null,
                         if (response.items.isNotEmpty()) PAGE + 1 else -1
                     )
-                    searchRepository.getDataCache()
-                        .setData(response.items) //caching data into preference
+                    searchRepository.getDataCache().insertAll(processedData) //caching data into preference
                     networkResponse.postValue(NetworkResponse.Success("Loaded"))
                 } catch (e: Exception) {
                     networkResponse.postValue(NetworkResponse.Error())
@@ -45,7 +47,7 @@ class GitRepoDataSource(
                 }
             }
         } else if (isFirstLoad) {
-            val cache = searchRepository.getDataCache().getData()
+            val cache = searchRepository.getDataCache().getAll()
             if (!cache.isNullOrEmpty()) {
                 callback.onResult(
                     cache, null,
@@ -59,7 +61,7 @@ class GitRepoDataSource(
     //before pages. Not in use
     override fun loadBefore(
         params: PageKeyedDataSource.LoadParams<Int>,
-        callback: PageKeyedDataSource.LoadCallback<Int, Item>
+        callback: PageKeyedDataSource.LoadCallback<Int, RepoEntity>
     ) {
         //we are loading data in one direction so not required
     }
@@ -67,15 +69,16 @@ class GitRepoDataSource(
     //to load next pages
     override fun loadAfter(
         params: PageKeyedDataSource.LoadParams<Int>,
-        callback: PageKeyedDataSource.LoadCallback<Int, Item>
+        callback: PageKeyedDataSource.LoadCallback<Int, RepoEntity>
     ) {
         if (searchKey.isNotEmpty() && params.key > 0) {
             val page = params.key
             CoroutineScope(Dispatchers.IO).launch {
                 try {
                     val response = searchRepository.search(searchKey, page)
+                    val processedData=DataConvertor.rawToRepoEntityList(response.items)
                     callback.onResult(
-                        response.items,
+                        processedData,
                         if (response.items.isNotEmpty()) PAGE + 1 else -1
                     )
                     networkResponse.postValue(NetworkResponse.Success("Loaded $page"))

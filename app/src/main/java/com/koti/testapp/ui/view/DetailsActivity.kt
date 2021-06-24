@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
 import com.koti.testapp.R
 import com.koti.testapp.databinding.ActiviyDetailsBinding
+import com.koti.testapp.db.roomDB.RepoEntity
 import com.koti.testapp.network.response.Item
 import com.koti.testapp.ui.adapter.ContributorsAdapter
 import com.koti.testapp.ui.vm.DetailsViewModel
@@ -21,7 +22,7 @@ import com.koti.testapp.ui.vm.DetailsViewModel
  * to show full details of repo
  */
 class DetailsActivity : BaseActivity(R.layout.activiy_details), View.OnClickListener {
-    lateinit var item: Item
+    lateinit var item: RepoEntity
     lateinit var viewmodel: DetailsViewModel
     lateinit var viewBinder: ActiviyDetailsBinding
 
@@ -31,7 +32,7 @@ class DetailsActivity : BaseActivity(R.layout.activiy_details), View.OnClickList
 
     companion object {
         const val DATA = "_data"
-        fun showDetails(context: Context, item: Item) {
+        fun showDetails(context: Context, item: RepoEntity) {
             val intent = Intent(context, DetailsActivity::class.java)
             intent.putExtra(DATA, Gson().toJson(item))
             //context.startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(context as Activity).toBundle())
@@ -44,7 +45,7 @@ class DetailsActivity : BaseActivity(R.layout.activiy_details), View.OnClickList
     }
 
     override fun handleIntent() {
-        item = Gson().fromJson(intent.getStringExtra(DATA), Item::class.java)
+        item = Gson().fromJson(intent.getStringExtra(DATA), RepoEntity::class.java)
     }
 
     override fun initView() {
@@ -61,11 +62,15 @@ class DetailsActivity : BaseActivity(R.layout.activiy_details), View.OnClickList
     }
 
     override fun startObservers() {
-        viewmodel.getContributors(item.name, item.owner.login).observe(this, {
-            it?.let {
-                contributorsAdapter.submitList(it)
+        item.name?.let {name->
+            item.loginName?.let { loginName ->
+                viewmodel.getContributors(name, loginName).observe(this, {
+                    it?.let {
+                        contributorsAdapter.submitList(it)
+                    }
+                })
             }
-        })
+        }
     }
 
     override fun onClick(view: View?) {
@@ -82,7 +87,7 @@ class DetailsActivity : BaseActivity(R.layout.activiy_details), View.OnClickList
         try {
             val browserIntent = Intent(
                 Intent.ACTION_VIEW,
-                Uri.parse(item.htmlUrl)
+                Uri.parse(item.url)
             )
             startActivity(browserIntent)
         } catch (e: ActivityNotFoundException) {

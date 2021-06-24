@@ -7,9 +7,9 @@ import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.koti.testapp.R
+import com.koti.testapp.db.roomDB.RepoEntity
 import com.koti.testapp.extentions.textChanges
 import com.koti.testapp.network.NetworkResponse
-import com.koti.testapp.network.response.Item
 import com.koti.testapp.ui.adapter.RepositoriesAdapter
 import com.koti.testapp.ui.adapter.RepositoriesClickListener
 import com.koti.testapp.ui.vm.MainViewModel
@@ -129,7 +129,7 @@ class MainActivity : BaseActivity(R.layout.activity_main), RepositoriesClickList
         }
     }
 
-    override fun onRepositoriesClick(item: Item) {
+    override fun onRepositoriesClick(item: RepoEntity) {
         DetailsActivity.showDetails(this, item)
     }
 }

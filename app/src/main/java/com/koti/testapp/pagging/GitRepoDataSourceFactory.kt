@@ -2,6 +2,7 @@ package com.koti.testapp.pagging
 
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.DataSource
+import com.koti.testapp.db.roomDB.RepoEntity
 import com.koti.testapp.network.NetworkResponse
 import com.koti.testapp.network.response.Item
 import com.koti.testapp.repo.SearchRepository
@@ -13,13 +14,13 @@ import com.koti.testapp.repo.SearchRepository
 class GitRepoDataSourceFactory(
     private val searchRepository: SearchRepository,
     private val networkResponse: MutableLiveData<NetworkResponse<String>>
-) : DataSource.Factory<Int, Item>() {
+) : DataSource.Factory<Int, RepoEntity>() {
 
     private val newsDataSourceLiveData = MutableLiveData<GitRepoDataSource>()
     private var query = ""
     private var isFirstLoad = true
 
-    override fun create(): DataSource<Int, Item> {
+    override fun create(): DataSource<Int, RepoEntity> {
         val newsDataSource =
             GitRepoDataSource(searchRepository, networkResponse, query, isFirstLoad)
         newsDataSourceLiveData.postValue(newsDataSource)

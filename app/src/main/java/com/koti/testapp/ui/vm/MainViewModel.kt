@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
+import com.koti.testapp.db.roomDB.RepoEntity
 import com.koti.testapp.network.response.Item
 import com.koti.testapp.pagging.GitRepoDataSourceFactory
 import com.koti.testapp.repo.PAGE_DEFULT_SIZE
@@ -21,7 +22,7 @@ import javax.inject.Inject
 class MainViewModel @Inject constructor(private val searchRepository: SearchRepository) :
     ViewModel() {
     private val TAG = "MainViewModel"
-    var repositorySearchResult: LiveData<PagedList<Item>>
+    var repositorySearchResult: LiveData<PagedList<RepoEntity>>
     val networkResponse = searchRepository.getNetworkObserver()
     private val gitRepoDataSourceFactory: GitRepoDataSourceFactory by lazy {
         GitRepoDataSourceFactory(searchRepository, networkResponse)
@@ -34,7 +35,7 @@ class MainViewModel @Inject constructor(private val searchRepository: SearchRepo
             .setEnablePlaceholders(false)
             .build()
         repositorySearchResult =
-            LivePagedListBuilder<Int, Item>(gitRepoDataSourceFactory, config).build()
+            LivePagedListBuilder<Int,RepoEntity>(gitRepoDataSourceFactory, config).build()
     }
 
     fun search(query: String) {

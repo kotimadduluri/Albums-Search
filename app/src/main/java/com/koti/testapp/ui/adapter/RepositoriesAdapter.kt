@@ -7,21 +7,21 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.koti.testapp.R
 import com.koti.testapp.databinding.ItemRepositoryBinding
-import com.koti.testapp.network.response.Item
+import com.koti.testapp.db.roomDB.RepoEntity
 
 /**
  * @author koti
  * To list all repositories
  */
 class RepositoriesAdapter(val clickListener: RepositoriesClickListener) :
-    PagedListAdapter<Item, RepositoriesAdapter.ViewHolder>(DIFF_CALLBACK) {
+    PagedListAdapter<RepoEntity, RepositoriesAdapter.ViewHolder>(DIFF_CALLBACK) {
 
     companion object {
         private val DIFF_CALLBACK = object :
-            DiffUtil.ItemCallback<Item>() {
-            override fun areItemsTheSame(oldItem: Item, newItem: Item) = oldItem == newItem
+            DiffUtil.ItemCallback<RepoEntity>() {
+            override fun areItemsTheSame(oldItem: RepoEntity, newItem: RepoEntity) = oldItem == newItem
 
-            override fun areContentsTheSame(oldItem: Item, newItem: Item) = oldItem.id == newItem.id
+            override fun areContentsTheSame(oldItem: RepoEntity, newItem: RepoEntity) = oldItem._id == newItem._id
         }
     }
 
@@ -33,7 +33,7 @@ class RepositoriesAdapter(val clickListener: RepositoriesClickListener) :
             }
         }
 
-        fun bindData(item: Item) {
+        fun bindData(item: RepoEntity) {
             binder.repo = item
             binder.executePendingBindings()
         }
@@ -54,5 +54,5 @@ class RepositoriesAdapter(val clickListener: RepositoriesClickListener) :
 
 //Interface to make interaction between list and activity/view
 interface RepositoriesClickListener {
-    fun onRepositoriesClick(item: Item)
+    fun onRepositoriesClick(item: RepoEntity)
 }

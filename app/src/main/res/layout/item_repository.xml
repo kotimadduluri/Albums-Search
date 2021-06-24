@@ -5,7 +5,7 @@
     <data>
         <variable
             name="repo"
-            type="com.koti.testapp.network.response.Item" />
+            type="com.koti.testapp.db.roomDB.RepoEntity" />
     </data>
   <androidx.cardview.widget.CardView
       android:layout_width="match_parent"
@@ -22,7 +22,7 @@
               app:layout_constraintTop_toTopOf="parent"
               android:layout_width="@dimen/dp_100"
               android:layout_height="match_parent"
-              loadAvatar="@{repo.owner.avatarUrl}"/>
+              loadAvatar="@{repo.avatar}"/>
           <TextView
               android:id="@+id/name"
               app:layout_constraintStart_toEndOf="@+id/avatar"
@@ -59,7 +59,7 @@
               app:layout_constraintTop_toBottomOf="@+id/description"
               android:layout_width="0dp"
               android:layout_height="wrap_content"
-              android:text="@{repo.updatedAt}"
+              android:text="@{repo.updatedTime}"
               android:maxLines="3"
               android:gravity="end"
               android:ellipsize="end"

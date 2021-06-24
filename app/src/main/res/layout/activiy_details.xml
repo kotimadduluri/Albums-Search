@@ -7,7 +7,7 @@
 
         <variable
             name="repo"
-            type="com.koti.testapp.network.response.Item" />
+            type="com.koti.testapp.db.roomDB.RepoEntity" />
     </data>
 
     <RelativeLayout
@@ -47,7 +47,7 @@
 
                             <ImageView
                                 android:id="@+id/avatar"
-                                loadAvatar="@{repo.owner.avatarUrl}"
+                                loadAvatar="@{repo.avatar}"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:adjustViewBounds="true"
@@ -102,16 +102,34 @@
                 </com.google.android.material.appbar.CollapsingToolbarLayout>
             </com.google.android.material.appbar.AppBarLayout>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/_rvContributor"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="@dimen/dp_5"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/detailsHolder"
-                tools:listitem="@layout/iitem_contributor"
-                app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior">
+                <TextView
+                    android:id="@+id/contributorLable"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/sp_16"
+                    android:text="@string/contributors"
+                    android:textColor="@color/white"
+                    android:padding="@dimen/dp_5"
+                    android:fontFamily="monospace"
+                    android:gravity="bottom"
+                    android:layout_marginTop="@dimen/dp_10"
+                    app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/_rvContributor"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="@dimen/dp_5"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/contributorLable"
+                    tools:listitem="@layout/iitem_contributor"/>
+            </LinearLayout>
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
         <ImageButton
