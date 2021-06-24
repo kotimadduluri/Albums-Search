@@ -2,4 +2,5 @@
     <string name="app_name">TestApp</string>
     <string name="project_link">Project Link</string>
     <string name="search_here">Search Here</string>
+    <string name="type_something_to_search">Type Something To Search</string>
 </resources>

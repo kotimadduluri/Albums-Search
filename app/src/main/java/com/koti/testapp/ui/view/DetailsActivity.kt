@@ -1,5 +1,7 @@
 package com.koti.testapp.ui.view
 
+import android.app.Activity
+import android.app.ActivityOptions
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
@@ -32,6 +34,7 @@ val contributorsAdapter:ContributorsAdapter by lazy {
         fun showDetails(context: Context, item: Item) {
             val intent=Intent(context, DetailsActivity::class.java)
             intent.putExtra(DATA, Gson().toJson(item))
+            //context.startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(context as Activity).toBundle())
             context.startActivity(intent)
         }
     }

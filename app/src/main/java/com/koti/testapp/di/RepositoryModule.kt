@@ -1,5 +1,6 @@
 package com.koti.testapp.di
 
+import com.koti.testapp.db.DataCache
 import com.koti.testapp.network.SearchApi
 import com.koti.testapp.repo.SearchRepository
 import dagger.Module
@@ -20,6 +21,6 @@ class RepositoryModule {
 
     @Provides
     @Singleton
-    fun provideSearchRepo(searchApi: SearchApi)=SearchRepository(searchApi)
+    fun provideSearchRepo(searchApi: SearchApi,dataCache: DataCache)=SearchRepository(searchApi,dataCache)
 
 }

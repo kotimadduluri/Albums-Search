@@ -2,17 +2,19 @@ package com.koti.testapp.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.annotation.NonNull
 import androidx.recyclerview.widget.RecyclerView
 import com.koti.testapp.R
 import com.koti.testapp.databinding.IitemContributorBinding
 import com.koti.testapp.network.response.Contributers
 
+/**
+ * @author koti
+ * Adapter to show Contributors
+ */
 class ContributorsAdapter:RecyclerView.Adapter<ContributorsAdapter.ViewHolder>() {
+    private val contributes=ArrayList<Contributers>()
 
-    val contributers=ArrayList<Contributers>()
-
-    class ViewHolder(val binder: IitemContributorBinding) : RecyclerView.ViewHolder(binder.root) {
+    class ViewHolder(private val binder: IitemContributorBinding) : RecyclerView.ViewHolder(binder.root) {
         fun bindData(item: Contributers) {
             binder.user=item
             binder.executePendingBindings()
@@ -27,13 +29,13 @@ class ContributorsAdapter:RecyclerView.Adapter<ContributorsAdapter.ViewHolder>()
         holder.bindData(getItem(position))
     }
 
-    override fun getItemCount()=contributers.size
+    override fun getItemCount()=contributes.size
 
-    fun getItem(pos:Int)=contributers[pos]
+    private fun getItem(pos:Int)=contributes[pos]
 
     fun submitList(it: List<Contributers>) {
-        contributers.clear()  //to clear previous
-        contributers.addAll(it)
+        contributes.clear()  //to clear previous
+        contributes.addAll(it)
         notifyDataSetChanged()
     }
 }

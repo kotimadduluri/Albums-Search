@@ -9,4 +9,5 @@
     <color name="white">#FFFFFFFF</color>
     <color name="appBg">#171616</color>
     <color name="card_bg">#333333</color>
+    <color name="no_data_color">#988D8D</color>
 </resources>

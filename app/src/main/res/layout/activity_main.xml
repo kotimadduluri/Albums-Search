@@ -28,9 +28,38 @@
             android:singleLine="true" />
     </androidx.cardview.widget.CardView>
 
+    <TextView
+        app:layout_constraintTop_toBottomOf="@id/searchInputHolder"
+        android:id="@+id/searchPlaceHolder"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_60"
+        android:textColor="#cccccc"
+        android:fontFamily="monospace"
+        android:visibility="gone"
+        android:gravity="center"
+        android:maxLines="1"
+        android:ellipsize="end"/>
+
+    <LinearLayout
+        android:id="@+id/noDataHolder"
+        app:layout_constraintTop_toBottomOf="@+id/searchPlaceHolder"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:gravity="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:visibility="gone">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_search_24"
+            app:tint="@color/no_data_color"
+            android:layout_margin="@dimen/dp_10"/>
+    </LinearLayout>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/_rvList"
-        app:layout_constraintTop_toBottomOf="@+id/searchInputHolder"
+        app:layout_constraintTop_toBottomOf="@+id/searchPlaceHolder"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"

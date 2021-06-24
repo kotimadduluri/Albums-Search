@@ -1,9 +1,6 @@
 package com.koti.testapp.network
 
-import com.google.gson.JsonArray
-import com.google.gson.JsonObject
 import com.koti.testapp.network.response.Contributers
-import com.koti.testapp.network.response.ContributersResponse
 import com.koti.testapp.network.response.GitRepository
 import retrofit2.http.GET
 import retrofit2.http.Headers
