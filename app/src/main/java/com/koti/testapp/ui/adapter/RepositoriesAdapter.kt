@@ -11,17 +11,28 @@ import com.koti.testapp.network.response.Item
  * @author koti
  * To list all repositories
  */
-class RepositoriesAdapter :RecyclerView.Adapter<RepositoriesAdapter.ViewHolder>() {
- val itemList=ArrayList<Item>()
-    class ViewHolder(private val binder:ItemRepositoryBinding) :RecyclerView.ViewHolder(binder.root) {
+class RepositoriesAdapter(val clickListner: RepositoriesClickListner) : RecyclerView.Adapter<RepositoriesAdapter.ViewHolder>() {
+    private val itemList = ArrayList<Item>()
+
+    inner class ViewHolder(private val binder: ItemRepositoryBinding) :
+        RecyclerView.ViewHolder(binder.root) {
+        init {
+            binder.root.setOnClickListener {
+                clickListner.onRepositoriesClick(getItem(adapterPosition))
+            }
+        }
         fun bindData(item: Item) {
-            binder.repo=item
+            binder.repo = item
             binder.executePendingBindings()
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(ItemRepositoryBinding.bind(LayoutInflater.from(parent.context).inflate(R.layout.item_repository,parent,false)))
+        return ViewHolder(
+            ItemRepositoryBinding.bind(
+                LayoutInflater.from(parent.context).inflate(R.layout.item_repository, parent, false)
+            )
+        )
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -33,7 +44,11 @@ class RepositoriesAdapter :RecyclerView.Adapter<RepositoriesAdapter.ViewHolder>(
         notifyDataSetChanged()
     }
 
-    override fun getItemCount()=itemList.size
+    override fun getItemCount() = itemList.size
 
-    fun getItem(pos:Int)= itemList[pos]
+    fun getItem(pos: Int) = itemList[pos]
+}
+
+interface RepositoriesClickListner {
+    fun onRepositoriesClick(item: Item)
 }

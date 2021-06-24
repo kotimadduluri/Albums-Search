@@ -64,6 +64,11 @@ dependencies {
     //livedata ktx
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.4.0-alpha02")
 
+    //coroutines
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.1")
+
+    //glide
+    implementation 'com.github.bumptech.glide:glide:4.9.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'
 
 }

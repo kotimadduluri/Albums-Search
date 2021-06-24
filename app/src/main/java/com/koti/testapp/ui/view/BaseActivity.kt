@@ -13,16 +13,17 @@ abstract class BaseActivity(layout: Int) :AppCompatActivity(layout) {
 
     override fun onStart() {
         super.onStart()
+        handleIntent()
         initViewmodel()
         initView()
         startObservers()
     }
 
-    //to get view latout
-    abstract fun getLayout():Int
-
     //to init viewmodels
     abstract fun initViewmodel()
+
+    //to init individual views
+    abstract fun handleIntent()
 
     //to init individual views
     abstract fun initView()

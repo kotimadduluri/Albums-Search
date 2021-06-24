@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="user"
+            type="com.koti.testapp.network.response.Contributers" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_70"
+        android:background="@color/card_bg"
+        android:padding="@dimen/dp_5">
+        <ImageView
+            android:id="@+id/avatar"
+            android:layout_width="@dimen/dp_60"
+            android:layout_height="@dimen/dp_60"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            loadAvatar="@{user.avatarUrl}"/>
+        <TextView
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/avatar"
+            android:id="@+id/name"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:text="@{user.login}"
+            android:gravity="center_vertical"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:padding="@dimen/dp_10"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
