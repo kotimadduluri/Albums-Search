@@ -7,6 +7,4 @@ import dagger.hilt.android.HiltAndroidApp
  * @author Koti
  */
 @HiltAndroidApp
-class TestApp : Application() {
-
-}
+class TestApp : Application()

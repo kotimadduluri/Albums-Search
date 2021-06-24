@@ -7,9 +7,10 @@ import javax.inject.Inject
 
 /**
  * @author koti
- * @param searchRepository respostory
+ * @param searchRepository [SearchRepository] repository
  */
 @HiltViewModel
-class DetailsViewModel @Inject constructor(private val searchRepository: SearchRepository) : ViewModel() {
-    fun getContributors(name:String,login:String)=searchRepository.getContributors(name,login)
+class DetailsViewModel @Inject constructor(private val searchRepository: SearchRepository) :
+    ViewModel() {
+    fun getContributors(name: String, login: String) = searchRepository.getContributors(name, login)
 }

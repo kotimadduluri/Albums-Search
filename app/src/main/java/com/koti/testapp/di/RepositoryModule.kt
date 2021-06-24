@@ -14,13 +14,13 @@ import javax.inject.Singleton
  * @author koti
  * Module to supply different repertories
  */
-
 @Module
 @InstallIn(SingletonComponent::class)
 class RepositoryModule {
 
     @Provides
     @Singleton
-    fun provideSearchRepo(searchApi: SearchApi,dataCache: DataCache)=SearchRepository(searchApi,dataCache)
+    fun provideSearchRepo(searchApi: SearchApi, dataCache: DataCache) =
+        SearchRepository(searchApi, dataCache)
 
 }

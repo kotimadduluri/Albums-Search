@@ -15,27 +15,30 @@ import javax.inject.Inject
 
 /**
  * @author koti
- * @param searchRepository respostory
+ * @param searchRepository [SearchRepository] repository
  */
 @HiltViewModel
-class MainViewModel @Inject constructor(private val searchRepository: SearchRepository) : ViewModel() {
+class MainViewModel @Inject constructor(private val searchRepository: SearchRepository) :
+    ViewModel() {
     private val TAG = "MainViewModel"
     var repositorySearchResult: LiveData<PagedList<Item>>
     val networkResponse = searchRepository.getNetworkObserver()
     private val gitRepoDataSourceFactory: GitRepoDataSourceFactory by lazy {
-        GitRepoDataSourceFactory(searchRepository,networkResponse)
+        GitRepoDataSourceFactory(searchRepository, networkResponse)
     }
+
     init {
         val config = PagedList.Config.Builder()
             .setPageSize(PAGE_DEFULT_SIZE)
             .setInitialLoadSizeHint(PAGE_INITIAL_SIZE)
             .setEnablePlaceholders(false)
             .build()
-        repositorySearchResult= LivePagedListBuilder<Int, Item>(gitRepoDataSourceFactory, config).build()
+        repositorySearchResult =
+            LivePagedListBuilder<Int, Item>(gitRepoDataSourceFactory, config).build()
     }
 
-    fun search(query:String){
-        Log.i(TAG, "search init :: $query")
+    fun search(query: String) {
+        Log.i(TAG, "searching :: $query")
         gitRepoDataSourceFactory.search(query)
     }
 }

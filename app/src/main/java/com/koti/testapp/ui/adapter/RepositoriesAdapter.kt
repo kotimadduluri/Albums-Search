@@ -13,7 +13,8 @@ import com.koti.testapp.network.response.Item
  * @author koti
  * To list all repositories
  */
-class RepositoriesAdapter(val clickListener: RepositoriesClickListener) :  PagedListAdapter<Item, RepositoriesAdapter.ViewHolder>(DIFF_CALLBACK) {
+class RepositoriesAdapter(val clickListener: RepositoriesClickListener) :
+    PagedListAdapter<Item, RepositoriesAdapter.ViewHolder>(DIFF_CALLBACK) {
 
     companion object {
         private val DIFF_CALLBACK = object :
@@ -31,6 +32,7 @@ class RepositoriesAdapter(val clickListener: RepositoriesClickListener) :  Paged
                 getItem(adapterPosition)?.let { it1 -> clickListener.onRepositoriesClick(it1) }
             }
         }
+
         fun bindData(item: Item) {
             binder.repo = item
             binder.executePendingBindings()
@@ -50,6 +52,7 @@ class RepositoriesAdapter(val clickListener: RepositoriesClickListener) :  Paged
     }
 }
 
+//Interface to make interaction between list and activity/view
 interface RepositoriesClickListener {
     fun onRepositoriesClick(item: Item)
 }

@@ -1,4 +1,4 @@
 package com.koti.testapp.network.response
 
 
-class ContributersResponse : ArrayList<Contributers>()
+class ContributersResponse : ArrayList<Contributor>()

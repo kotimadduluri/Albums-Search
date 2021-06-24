@@ -9,7 +9,7 @@ import dagger.hilt.android.AndroidEntryPoint
  * base activity to provide common methods
  */
 @AndroidEntryPoint
-abstract class BaseActivity(layout: Int) :AppCompatActivity(layout) {
+abstract class BaseActivity(layout: Int) : AppCompatActivity(layout) {
 
     override fun onStart() {
         super.onStart()
@@ -32,7 +32,7 @@ abstract class BaseActivity(layout: Int) :AppCompatActivity(layout) {
     abstract fun startObservers()
 
     //common methode to show messages
-    fun showMessage(message: String){
-        Toast.makeText(this,message,Toast.LENGTH_SHORT).show()
+    fun showMessage(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 }

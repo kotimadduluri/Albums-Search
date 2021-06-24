@@ -3,7 +3,7 @@ package com.koti.testapp.network.response
 
 import com.google.gson.annotations.SerializedName
 
-data class Contributers(
+data class Contributor(
     @SerializedName("avatar_url")
     var avatarUrl: String,
     @SerializedName("contributions")
@@ -42,5 +42,5 @@ data class Contributers(
     var type: String,
     @SerializedName("url")
     var url: String
-    
+
 )

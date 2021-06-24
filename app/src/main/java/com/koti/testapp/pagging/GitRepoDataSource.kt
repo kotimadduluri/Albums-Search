@@ -21,6 +21,7 @@ class GitRepoDataSource(
 ) : PageKeyedDataSource<Int, Item>() {
     private val PAGE = 1
 
+    //initial page loading
     override fun loadInitial(
         params: PageKeyedDataSource.LoadInitialParams<Int>,
         callback: PageKeyedDataSource.LoadInitialCallback<Int, Item>
@@ -29,21 +30,23 @@ class GitRepoDataSource(
             CoroutineScope(Dispatchers.IO).launch {
                 try {
                     networkResponse.postValue(NetworkResponse.Loading())
-                    val response = searchRepository.search(searchKey, PAGE,params.requestedLoadSize)
+                    val response =
+                        searchRepository.search(searchKey, PAGE, params.requestedLoadSize)
                     callback.onResult(
                         response.items, null,
                         if (response.items.isNotEmpty()) PAGE + 1 else -1
                     )
-                    searchRepository.getDataCache().setData(response.items) //caching data into preference
+                    searchRepository.getDataCache()
+                        .setData(response.items) //caching data into preference
                     networkResponse.postValue(NetworkResponse.Success("Loaded"))
                 } catch (e: Exception) {
                     networkResponse.postValue(NetworkResponse.Error())
                     e.printStackTrace()
                 }
             }
-        }else if(isFirstLoad){
-            val cache=searchRepository.getDataCache().getData()
-            if(!cache.isNullOrEmpty()){
+        } else if (isFirstLoad) {
+            val cache = searchRepository.getDataCache().getData()
+            if (!cache.isNullOrEmpty()) {
                 callback.onResult(
                     cache, null,
                     if (cache.isNotEmpty()) PAGE + 1 else -1
@@ -53,6 +56,7 @@ class GitRepoDataSource(
 
     }
 
+    //before pages. Not in use
     override fun loadBefore(
         params: PageKeyedDataSource.LoadParams<Int>,
         callback: PageKeyedDataSource.LoadCallback<Int, Item>
@@ -60,6 +64,7 @@ class GitRepoDataSource(
         //we are loading data in one direction so not required
     }
 
+    //to load next pages
     override fun loadAfter(
         params: PageKeyedDataSource.LoadParams<Int>,
         callback: PageKeyedDataSource.LoadCallback<Int, Item>

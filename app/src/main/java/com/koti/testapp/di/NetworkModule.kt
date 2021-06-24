@@ -12,6 +12,10 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
+/**
+ * @author koto
+ * Module to provide network related objects
+ */
 @Module
 @InstallIn(SingletonComponent::class)
 class NetworkModule {
@@ -19,16 +23,15 @@ class NetworkModule {
     @Provides
     fun provideDomain() = "https://api.github.com/"
 
-
     @Singleton
     @Provides
-    fun provideOkHttpClient() = if (BuildConfig.DEBUG){ //for testing logs enabled
+    fun provideOkHttpClient() = if (BuildConfig.DEBUG) { //for testing logs enabled
         val loggingInterceptor = HttpLoggingInterceptor()
         loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
         OkHttpClient.Builder()
             .addInterceptor(loggingInterceptor)
             .build()
-    }else{  //for release disabled logs
+    } else {  //for release disabled logs
         OkHttpClient
             .Builder()
             .build()
@@ -36,7 +39,7 @@ class NetworkModule {
 
     @Singleton
     @Provides
-    fun provideRetrofit(okHttpClient: OkHttpClient, BASE_URL:String): Retrofit = Retrofit.Builder()
+    fun provideRetrofit(okHttpClient: OkHttpClient, BASE_URL: String): Retrofit = Retrofit.Builder()
         .addConverterFactory(GsonConverterFactory.create())
         .baseUrl(BASE_URL)
         .client(okHttpClient)

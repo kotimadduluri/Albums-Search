@@ -16,21 +16,22 @@ class GitRepoDataSourceFactory(
 ) : DataSource.Factory<Int, Item>() {
 
     private val newsDataSourceLiveData = MutableLiveData<GitRepoDataSource>()
-    private var query=""
-    private var isFirstLoad=true
+    private var query = ""
+    private var isFirstLoad = true
 
     override fun create(): DataSource<Int, Item> {
-        val newsDataSource = GitRepoDataSource(searchRepository,networkResponse,query,isFirstLoad)
+        val newsDataSource =
+            GitRepoDataSource(searchRepository, networkResponse, query, isFirstLoad)
         newsDataSourceLiveData.postValue(newsDataSource)
-        isFirstLoad=false
+        isFirstLoad = false
         return newsDataSource
     }
 
     /**
      * @param newQuery user given key to search
      */
-    fun search(newQuery:String){
-        query=newQuery;
+    fun search(newQuery: String) {
+        query = newQuery
         refresh()
     }
 

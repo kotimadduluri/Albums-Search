@@ -8,11 +8,11 @@ import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
 @BindingAdapter("loadAvatar")
-fun loadAvatar(view:ImageView,url: String){
+fun loadAvatar(view: ImageView, url: String) {
     Glide.with(view)
-            .load(url)
-            .thumbnail(Glide.with(view).load(url).thumbnail(0.25f))
-            .into(view)
+        .load(url)
+        .thumbnail(Glide.with(view).load(url).thumbnail(0.25f))
+        .into(view)
 }
 
 data class Item(
@@ -164,4 +164,4 @@ data class Item(
     var watchers: Int,
     @SerializedName("watchers_count")
     var watchersCount: Int
-):Serializable
+) : Serializable
