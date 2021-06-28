@@ -22,6 +22,7 @@ const val PAGE_INITIAL_SIZE = 15
 interface SearchRepository {
 
     fun getDataCache(): RepoEntityDao
+
     fun getNetworkObserver(): MutableLiveData<NetworkResponse<String>>
 
     //to search given query
