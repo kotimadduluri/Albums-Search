@@ -149,6 +149,8 @@
             android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true"
             android:layout_margin="@dimen/dp_16"
+            android:src="@drawable/ic_add_24"
+            android:tint="@color/black"
             app:backgroundTint="@color/white"/>
     </RelativeLayout>
 </layout>
