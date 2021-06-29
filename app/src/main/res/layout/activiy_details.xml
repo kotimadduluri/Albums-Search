@@ -7,7 +7,7 @@
 
         <variable
             name="repo"
-            type="com.koti.testapp.db.roomDB.RepoEntity" />
+            type="com.koti.testapp.db.roomDB.RepoWithContributors" />
     </data>
 
     <RelativeLayout
@@ -47,7 +47,7 @@
 
                             <ImageView
                                 android:id="@+id/avatar"
-                                loadAvatar="@{repo.avatar}"
+                                loadAvatar="@{repo.repoEntity.avatar}"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:adjustViewBounds="true"
@@ -63,7 +63,7 @@
                                 android:layout_marginEnd="@dimen/dp_10"
                                 android:ellipsize="end"
                                 android:maxLines="2"
-                                android:text="@{repo.name}"
+                                android:text="@{repo.repoEntity.name}"
                                 android:textColor="@color/white"
                                 android:textSize="@dimen/sp_20"
                                 android:textStyle="bold"
@@ -78,7 +78,7 @@
                                 android:layout_marginStart="@dimen/dp_10"
                                 android:layout_marginEnd="@dimen/dp_10"
                                 android:ellipsize="end"
-                                android:text="@{repo.description}"
+                                android:text="@{repo.repoEntity.description}"
                                 android:textColor="@color/white"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
@@ -141,5 +141,14 @@
             android:onClick="onClick"
             android:src="@drawable/ic_back_24"
             app:tint="@color/purple_200" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/addNewPerson"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_margin="@dimen/dp_16"
+            app:backgroundTint="@color/white"/>
     </RelativeLayout>
 </layout>

@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.koti.testapp.R
 import com.koti.testapp.databinding.IitemContributorBinding
+import com.koti.testapp.db.roomDB.ContributorEntity
 import com.koti.testapp.network.response.Contributor
 
 /**
@@ -12,11 +13,11 @@ import com.koti.testapp.network.response.Contributor
  * Adapter to show Contributors
  */
 class ContributorsAdapter : RecyclerView.Adapter<ContributorsAdapter.ViewHolder>() {
-    private val contributes = ArrayList<Contributor>()
+    private val contributes = ArrayList<ContributorEntity>()
 
     class ViewHolder(private val binder: IitemContributorBinding) :
         RecyclerView.ViewHolder(binder.root) {
-        fun bindData(item: Contributor) {
+        fun bindData(item: ContributorEntity) {
             binder.user = item
             binder.executePendingBindings()
         }
@@ -39,8 +40,13 @@ class ContributorsAdapter : RecyclerView.Adapter<ContributorsAdapter.ViewHolder>
 
     private fun getItem(pos: Int) = contributes[pos]
 
-    fun submitList(it: List<Contributor>) {
+    fun submitList(it: List<ContributorEntity>) {
         contributes.addAll(it)
         notifyDataSetChanged()
+    }
+
+    fun addNewUser(it: ContributorEntity) {
+        contributes.add(0,it)
+        notifyItemInserted(0)
     }
 }

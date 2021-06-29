@@ -2,15 +2,15 @@ package com.koti.testapp.repo
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.liveData
-import com.koti.testapp.db.DataCache
+import com.koti.testapp.db.roomDB.ContributorEntity
+import com.koti.testapp.db.roomDB.ContributorEntityDao
 import com.koti.testapp.db.roomDB.RepoEntityDao
+import com.koti.testapp.db.roomDB.RepoWithContributors
+import com.koti.testapp.helper.RepoUpdateReciver
 import com.koti.testapp.network.NetworkResponse
-import com.koti.testapp.network.SearchApi
 import com.koti.testapp.network.response.Contributor
 import com.koti.testapp.network.response.GitRepository
-import kotlinx.coroutines.Dispatchers
-import javax.inject.Inject
+import java.util.*
 
 /**
  * @author koti
@@ -21,7 +21,11 @@ const val PAGE_INITIAL_SIZE = 15
 
 interface SearchRepository {
 
+    fun getRepoUpdateReciver(): RepoUpdateReciver
+
     fun getDataCache(): RepoEntityDao
+
+    fun getContributorEntityDao(): ContributorEntityDao
 
     fun getNetworkObserver(): MutableLiveData<NetworkResponse<String>>
 
@@ -32,5 +36,9 @@ interface SearchRepository {
      * methode to search based on user query
      * @param query user
      */
-    fun getContributors(name: String, login: String): LiveData<List<Contributor>>
+    fun getContributors(name: String, login: String, _id: Int): LiveData<List<ContributorEntity>>
+
+    fun getRepoById(_id: Int): RepoWithContributors
+
+    fun addNewPerson(name:String, repoId: Int) : LiveData<ContributorEntity?>  //for dummy return
 }

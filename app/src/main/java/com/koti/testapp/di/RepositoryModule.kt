@@ -1,7 +1,9 @@
 package com.koti.testapp.di
 
 import com.koti.testapp.db.DataCache
+import com.koti.testapp.db.roomDB.ContributorEntityDao
 import com.koti.testapp.db.roomDB.RepoEntityDao
+import com.koti.testapp.helper.RepoUpdateReciver
 import com.koti.testapp.network.SearchApi
 import com.koti.testapp.repo.SearchRepository
 import com.koti.testapp.repo.SearchRepository_Imp
@@ -22,10 +24,16 @@ class RepositoryModule {
 
     @Provides
     @Singleton
-    fun provideSearchRepo(searchApi: SearchApi, dataCache: DataCache,repoEntityDao: RepoEntityDao):SearchRepository =
+    fun provideSearchRepo(searchApi: SearchApi, dataCache: DataCache,repoEntityDao: RepoEntityDao,contributorEntityDao: ContributorEntityDao,repoUpdateReciver: RepoUpdateReciver):SearchRepository =
         SearchRepository_Imp(
             searchApi,
             dataCache,
-        repoEntityDao)
+            repoEntityDao,
+            contributorEntityDao,
+            repoUpdateReciver)
+
+    @Provides
+    @Singleton
+    fun provideRepoUpdateReceiver()= RepoUpdateReciver()
 
 }

@@ -1,5 +1,6 @@
 package com.koti.testapp.network
 
+import com.google.gson.JsonObject
 import com.koti.testapp.network.response.Contributor
 import com.koti.testapp.network.response.GitRepository
 import retrofit2.http.GET
@@ -26,4 +27,10 @@ interface SearchApi {
         @Path("name") name: String,
         @Path("login") login: String
     ): List<Contributor>
+
+    @GET("/repos/contributors/add")
+    suspend fun addNewPerson(
+        @Path("name") name: String,
+        @Path("repoId") reposId: Int
+    ): JsonObject
 }

@@ -31,11 +31,17 @@ class AppLevelModule {
             context.applicationContext,
             RepoEntityDataBase::class.java,
             DB_NAME
-        ).build()
+        ).fallbackToDestructiveMigration()
+            .allowMainThreadQueries()
+            .build()
     }
 
     @Provides
     @Singleton
     fun provideRepoEntityDao(repoDataBase: RepoEntityDataBase)=repoDataBase.repoEntityDao()
+
+    @Provides
+    @Singleton
+    fun provideContributorDao(repoDataBase: RepoEntityDataBase)=repoDataBase.contributorEntityDao()
 
 }

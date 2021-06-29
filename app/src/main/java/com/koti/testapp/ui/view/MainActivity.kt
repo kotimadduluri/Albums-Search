@@ -7,7 +7,6 @@ import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.koti.testapp.R
-import com.koti.testapp.db.roomDB.RepoEntity
 import com.koti.testapp.extentions.textChanges
 import com.koti.testapp.network.NetworkResponse
 import com.koti.testapp.ui.adapter.RepositoriesAdapter
@@ -23,10 +22,11 @@ import kotlinx.coroutines.flow.onEach
 
 /**
  * @author koti
- * activity to shoe repositoryList
+ * activity to shoe repositoryListD
  */
 @AndroidEntryPoint
 class MainActivity : BaseActivity(R.layout.activity_main), RepositoriesClickListener {
+
 
     private val repositoriesAdapter: RepositoriesAdapter by lazy {
         RepositoriesAdapter(this)
@@ -70,6 +70,20 @@ class MainActivity : BaseActivity(R.layout.activity_main), RepositoriesClickList
     override fun startObservers() {
         observerRepositoryDataChanges()
         observeNetwork()
+        observerRepoDataChnages()
+    }
+
+    private fun observerRepoDataChnages() {
+        viewModel.repoUpdateReciver.observe(this,{
+            println("data update ====>$it")
+            if(it.first){
+                viewModel.resetReceiver()
+                if(it.second>0){
+                    val newRepoData=viewModel.getRepoById(it.second)
+                    repositoriesAdapter.updateData(newRepoData)
+                }
+            }
+        })
     }
 
     private fun observerRepositoryDataChanges() {
@@ -129,7 +143,7 @@ class MainActivity : BaseActivity(R.layout.activity_main), RepositoriesClickList
         }
     }
 
-    override fun onRepositoriesClick(item: RepoEntity) {
-        DetailsActivity.showDetails(this, item)
+    override fun onRepositoriesClick(reposId: Int) {
+        DetailsActivity.showDetails(this, reposId)
     }
 }

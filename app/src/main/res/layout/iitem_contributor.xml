@@ -6,7 +6,7 @@
     <data>
         <variable
             name="user"
-            type="com.koti.testapp.network.response.Contributor" />
+            type="com.koti.testapp.db.roomDB.ContributorEntity" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

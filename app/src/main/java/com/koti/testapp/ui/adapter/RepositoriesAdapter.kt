@@ -8,20 +8,20 @@ import androidx.recyclerview.widget.RecyclerView
 import com.koti.testapp.R
 import com.koti.testapp.databinding.ItemRepositoryBinding
 import com.koti.testapp.db.roomDB.RepoEntity
+import com.koti.testapp.db.roomDB.RepoWithContributors
 
 /**
  * @author koti
  * To list all repositories
  */
 class RepositoriesAdapter(val clickListener: RepositoriesClickListener) :
-    PagedListAdapter<RepoEntity, RepositoriesAdapter.ViewHolder>(DIFF_CALLBACK) {
+    PagedListAdapter<RepoWithContributors, RepositoriesAdapter.ViewHolder>(DIFF_CALLBACK) {
 
     companion object {
         private val DIFF_CALLBACK = object :
-            DiffUtil.ItemCallback<RepoEntity>() {
-            override fun areItemsTheSame(oldItem: RepoEntity, newItem: RepoEntity) = oldItem == newItem
-
-            override fun areContentsTheSame(oldItem: RepoEntity, newItem: RepoEntity) = oldItem._id == newItem._id
+            DiffUtil.ItemCallback<RepoWithContributors>() {
+            override fun areItemsTheSame(oldItem: RepoWithContributors, newItem: RepoWithContributors) = oldItem == newItem
+            override fun areContentsTheSame(oldItem: RepoWithContributors, newItem: RepoWithContributors) = (oldItem.repoEntity._id == newItem.repoEntity._id || oldItem.contributors.size!=newItem.contributors.size)
         }
     }
 
@@ -29,11 +29,11 @@ class RepositoriesAdapter(val clickListener: RepositoriesClickListener) :
         RecyclerView.ViewHolder(binder.root) {
         init {
             binder.root.setOnClickListener {
-                getItem(adapterPosition)?.let { it1 -> clickListener.onRepositoriesClick(it1) }
+                getItem(adapterPosition)?.let { it1 -> clickListener.onRepositoriesClick(it1.repoEntity._id) }
             }
         }
 
-        fun bindData(item: RepoEntity) {
+        fun bindData(item: RepoWithContributors) {
             binder.repo = item
             binder.executePendingBindings()
         }
@@ -50,9 +50,22 @@ class RepositoriesAdapter(val clickListener: RepositoriesClickListener) :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         getItem(position)?.let { holder.bindData(it) }
     }
+
+    fun updateData(newRepoData: RepoWithContributors) {
+        try{
+            val currentItem= currentList?.single { it.repoEntity._id == newRepoData.repoEntity._id }
+            currentItem?.let {
+                it.contributors=newRepoData.contributors
+                it.repoEntity=newRepoData.repoEntity
+            }
+            notifyDataSetChanged()
+        }catch (e:Exception){
+            e.printStackTrace()
+        }
+    }
 }
 
 //Interface to make interaction between list and activity/view
 interface RepositoriesClickListener {
-    fun onRepositoriesClick(item: RepoEntity)
+    fun onRepositoriesClick(item: Int)
 }
